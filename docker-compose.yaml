@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/vendor
+    environment:
+      - AIR_WATCH_DELAY=300
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run serve
