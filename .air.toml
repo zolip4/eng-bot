@@ -1,6 +1,0 @@
-# Config file for Air - https://github.com/cosmtrek/air
-# Use this to customize air's behavior
-
-root = "."
-tmp_dir = "tmp"
-cmd = "go run main.go"
