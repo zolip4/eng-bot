@@ -12,7 +12,7 @@ func main() {
 	router.HandleFunc("/api/hello", HelloHandler).Methods("GET")
 
 	// Serve static files from the React app
-	fs := http.FileServer(http.Dir("./resources/build"))
+	fs := http.FileServer(http.Dir("/engbot/resources/build"))
 	router.PathPrefix("/").Handler(fs)
 
 	// Start the server on port 8080

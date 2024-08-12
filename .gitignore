@@ -1,2 +1,5 @@
 /app/vendor/
 /app/tmp/
+/resources/build/
+/resources/node_modules/
+/resources/tmp/
