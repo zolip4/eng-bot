@@ -1,17 +1,24 @@
 package main
 
 import (
-	"fmt"
+	"github.com/gorilla/mux"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/api/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello from Back")
-	})
+	router := mux.NewRouter()
 
-	fmt.Println("Starting server on :80...")
-	if err := http.ListenAndServe(":80", nil); err != nil {
-		panic(err)
-	}
+	// API route
+	router.HandleFunc("/api/hello", HelloHandler).Methods("GET")
+
+	// Serve static files from the React app
+	fs := http.FileServer(http.Dir("./resources/build"))
+	router.PathPrefix("/").Handler(fs)
+
+	// Start the server on port 8080
+	http.ListenAndServe(":80", router)
+}
+
+func HelloHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello from Go gfgfg"))
 }
