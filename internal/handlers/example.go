@@ -6,10 +6,10 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome to the Awesome Project d d !"))
+	w.Write([]byte("Welcome to the Awesome!"))
 }
 
 func HealthHandler(w http.ResponseWriter, r *http.Request) {
-	response := map[string]string{"status": "ok"}
+	response := map[string]string{"status": "OK"}
 	json.NewEncoder(w).Encode(response)
 }

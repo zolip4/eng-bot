@@ -6,6 +6,9 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
-      - .:/app
+      - ./cmd:/app/cmd
+      - ./internal:/app/internal
+      - ./go.mod:/app/go.mod
+      - ./go.sum:/app/go.sum
     ports:
       - "80:80"
