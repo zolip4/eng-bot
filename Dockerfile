@@ -1,23 +1,29 @@
+# Используем официальный образ Go для сборки
 FROM golang:1.23-alpine AS builder
 
-RUN apk add --no-cache git
+# Устанавливаем рабочую директорию внутри контейнера
+WORKDIR /build
 
-WORKDIR /app
-
+# Копируем файлы go.mod и go.sum для кэширования зависимостей
 COPY go.mod go.sum ./
 
+# Загружаем зависимости
 RUN go mod download
 
+# Копируем все файлы исходного кода в рабочую директорию
 COPY . .
 
-RUN go build -o server ./cmd/server
+# Сборка приложения из директории cmd/server
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app ./cmd/server
 
-FROM alpine:latest
+# Создаем минимальный образ для продакшена на базе scratch
+FROM scratch
 
-WORKDIR /app
+# Копируем скомпилированное приложение из предыдущего этапа
+COPY --from=builder /go/bin/app /app
 
-COPY --from=builder /app/server /app/server
+# Указываем точку входа для контейнера
+ENTRYPOINT ["/app"]
 
+# Указываем порт, на котором работает приложение
 EXPOSE 80
-
-CMD ["/app/server"]
