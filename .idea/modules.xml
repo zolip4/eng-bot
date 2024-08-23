@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/engbot.iml" filepath="$PROJECT_DIR$/.idea/engbot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../engbot-front/.idea/engbot-front.iml" filepath="$PROJECT_DIR$/../engbot-front/.idea/engbot-front.iml" />
     </modules>
   </component>
 </project>

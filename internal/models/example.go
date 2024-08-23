@@ -1,7 +1,6 @@
 package models
 
-type Record struct {
+type ExampleModel struct {
 	ID    int    `json:"id"`
 	Title string `json:"title"`
-	Body  string `json:"body"`
 }

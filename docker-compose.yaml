@@ -4,11 +4,8 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
     ports:
       - "80:80"
-    environment:
-      - GO_ENV=development
-    volumes:
-      - ./app:/engbot/app
-      - ./resources:/engbot/resources

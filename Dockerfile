@@ -1,35 +1,23 @@
-FROM golang:1.22-alpine AS builder
+FROM golang:1.23-alpine AS builder
 
-WORKDIR /engbot/app
+RUN apk add --no-cache git
 
-RUN apk add --no-cache nodejs npm
+WORKDIR /app
 
-RUN go install github.com/air-verse/air@latest
+COPY go.mod go.sum ./
 
-COPY ./app/ /engbot/app
+RUN go mod download
 
-RUN go mod tidy
+COPY . .
 
-WORKDIR /engbot/resources
+RUN go build -o server ./cmd/server
 
-COPY ./resources/ /engbot/resources/
+FROM alpine:latest
 
-RUN npm install
+WORKDIR /app
 
-RUN echo $PATH
-RUN npm install --yes
-RUN npm run build
-
-WORKDIR /engbot/app
+COPY --from=builder /app/server /app/server
 
 EXPOSE 80
 
-CMD if [ "$GO_ENV" = "development" ]; then \
-  watch 'npm run build --prefix /engbot/resources' /engbot/resources/src \
-else \
-  npm run build --prefix /engbot/resources \
-fi
-
-CMD ["air"]
-
-# CMD ["./main"]
+CMD ["/app/server"]
